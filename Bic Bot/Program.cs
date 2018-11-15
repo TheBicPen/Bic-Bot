@@ -70,13 +70,16 @@ namespace MyBot
             {
                 callList.Remove(message.Author.Username);
             }
-                callList.Add(message.Author.Username, message.Content.Substring(message.Content.IndexOf(' ')));
+                callList.Add(message.Author.Username, message.Content.Substring(message.Content.IndexOf(' ') + 1));
             await message.Channel.SendMessageAsync(String.Format(@"{0}, I will call you {1}", 
-                message.Author.Username, message.Content.Substring(message.Content.IndexOf(' '))));
+                message.Author.Username, message.Content.Substring(message.Content.IndexOf(' ') + 1)));
             }
 
         private async Task GetName(SocketMessage message)
         {
+            LogSeverity low = new LogSeverity();
+            LogMessage namemsg = new LogMessage(low, MethodBase.GetCurrentMethod().Name, message.ToString());
+            await Log(namemsg);
             if(callList.ContainsKey(message.Author.Username))
             {
                 await message.Channel.SendMessageAsync("Your name is " + callList[message.Author.Username] + ".");
