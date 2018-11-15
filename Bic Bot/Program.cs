@@ -70,10 +70,10 @@ namespace MyBot
             {
                 callList.Remove(message.Author.Username);
             }
-                callList.Add(message.Author.Username, message.Content);
+                callList.Add(message.Author.Username, message.Content.Substring(message.Content.IndexOf(' ')));
             await message.Channel.SendMessageAsync(String.Format(@"{0}, I will call you {1}", 
-                message.Author.Username.Substring(message.Author.Username.IndexOf(' ')), message.Content));
-        }
+                message.Author.Username, message.Content.Substring(message.Content.IndexOf(' '))));
+            }
 
         private async Task GetName(SocketMessage message)
         {
