@@ -6,4 +6,8 @@
     <RootNamespace>Bic_Bot</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Discord.Net" Version="1.0.2" />
+  </ItemGroup>
+
 </Project>
