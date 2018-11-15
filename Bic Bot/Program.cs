@@ -10,7 +10,7 @@ namespace MyBot
     public class Program
     {
         string commandString = ";";
-        Dictionary<string, string> callList;
+        Dictionary<string, string> callList = new Dictionary<string, string>();
 
         public static void Main(string[] args)
             => new Program().MainAsync().GetAwaiter().GetResult();
@@ -40,7 +40,7 @@ namespace MyBot
 
         private async Task ParseCommand(SocketMessage message)
         {
-            switch (message.Content)
+            switch (message.Content.Split(' ')[0])
             {
                 case ";ping":
                     await message.Channel.SendMessageAsync("Pong!");
@@ -51,8 +51,9 @@ namespace MyBot
                 case ";callme":
                     await CallMe(message);
                     break;
-                case ";myName":
-
+                case ";myname":
+                    await GetName(message);
+                    break;
                 case ";isbot":
                     await message.Channel.SendMessageAsync("yes");
                     break;
@@ -65,8 +66,13 @@ namespace MyBot
 
         private async Task CallMe(SocketMessage message)
         {
-            callList.Add(message.Author.Username, message.Content);
-            await message.Channel.SendMessageAsync(String.Format(@"{0}, I will call you {1}", message.Author.Username, message.Content));
+            if (callList.ContainsKey(message.Author.Username))
+            {
+                callList.Remove(message.Author.Username);
+            }
+                callList.Add(message.Author.Username, message.Content);
+            await message.Channel.SendMessageAsync(String.Format(@"{0}, I will call you {1}", 
+                message.Author.Username.Substring(message.Author.Username.IndexOf(' ')), message.Content));
         }
 
         private async Task GetName(SocketMessage message)
