@@ -112,6 +112,26 @@ namespace MyBot
 
         }
 
+        private Dictionary<string, string> GetDictionaryFromFile(string file)
+        {
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            try
+            {
+                string[] lines = File.ReadAllLines("dictionary text\\" + file);
+                foreach(string line in lines)
+                {
+                    dict.Add(line.Split(';')[0], line.Split(';')[1]);
+                }
+            }
+            catch
+            {
+                LogSeverity medium = new LogSeverity();
+                LogMessage readFileMsg = new LogMessage(medium, MethodBase.GetCurrentMethod().Name, file);
+                Log(readFileMsg);
+            }
+            return dict;
+        }
+
         private async Task Commit(SocketMessage message)
         {
             LogSeverity low = new LogSeverity();
