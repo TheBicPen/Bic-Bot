@@ -151,7 +151,7 @@ namespace MyBot
                     output[i] = thiccDict[text[i].ToString().ToUpper()].ToCharArray()[0];
                 }
             }
-            await message.Channel.SendMessageAsync(output.ToString());
+            await message.Channel.SendMessageAsync(new string(output));
         }
 
         private async Task Commit(SocketMessage message)
