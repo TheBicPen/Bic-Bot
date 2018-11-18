@@ -61,6 +61,9 @@ namespace MyBot
                 case ";gocommit":
                     await Commit(message);
                     break;
+                case ";extrathicc":
+                    await ExtraThicc(message);
+                    break;
                 default:
                     await message.Channel.SendMessageAsync("Invalid command.");
                     break;
@@ -130,6 +133,25 @@ namespace MyBot
                 Log(readFileMsg);
             }
             return dict;
+        }
+
+        private async Task ExtraThicc(SocketMessage message)
+        {
+            LogSeverity low = new LogSeverity();
+            LogMessage thiccMsg = new LogMessage(low, MethodBase.GetCurrentMethod().Name, message.ToString());
+            await Log(thiccMsg);
+
+            Dictionary<string, string> thiccDict = GetDictionaryFromFile("Extra thicc.txt");
+            char[] text = message.Content.ToCharArray();
+            char[] output = new char[text.Length];
+            for(int i = 0; i < text.Length; i++)
+            {
+                if(thiccDict.ContainsKey(text[i].ToString().ToUpper()))
+                {
+                    output[i] = thiccDict[text[i].ToString().ToUpper()].ToCharArray()[0];
+                }
+            }
+            await message.Channel.SendMessageAsync(output.ToString());
         }
 
         private async Task Commit(SocketMessage message)
