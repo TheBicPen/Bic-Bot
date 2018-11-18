@@ -94,21 +94,31 @@ namespace MyBot
             }
         }
 
+        private string GetResponseFromFile(string file)
+        {
+            try
+            {
+                string[] lines = File.ReadAllLines("command text\\" + file);
+                Random rnd = new Random();
+                return lines[rnd.Next(lines.Length)];
+            }
+            catch
+            {
+                LogSeverity medium = new LogSeverity();
+                LogMessage readFileMsg = new LogMessage(medium, MethodBase.GetCurrentMethod().Name, file);
+                Log(readFileMsg);
+                return file;
+            }
+
+        }
+
         private async Task Commit(SocketMessage message)
         {
             LogSeverity low = new LogSeverity();
             LogMessage commitMsg = new LogMessage(low, MethodBase.GetCurrentMethod().Name, message.ToString());
             await Log(commitMsg);
 
-            try
-            {
-                string[] lines = File.ReadAllLines("command text\\commit.txt");
-                Random rnd = new Random();
-                await message.Channel.SendMessageAsync(lines[rnd.Next(lines.Length)]);
-            }
-            finally { string[] lines = new string[0]; }
-            
-
+            await message.Channel.SendMessageAsync(GetResponseFromFile("commit.txt"));
         }
 
         private Task Log(LogMessage msg)
