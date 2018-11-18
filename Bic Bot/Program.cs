@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace MyBot
 {
@@ -57,6 +58,9 @@ namespace MyBot
                 case ";isbot":
                     await message.Channel.SendMessageAsync("yes");
                     break;
+                case ";gocommit":
+                    await Commit(message);
+                    break;
                 default:
                     await message.Channel.SendMessageAsync("Invalid command.");
                     break;
@@ -88,6 +92,23 @@ namespace MyBot
             {
                 await message.Channel.SendMessageAsync("I don't know your name.");
             }
+        }
+
+        private async Task Commit(SocketMessage message)
+        {
+            LogSeverity low = new LogSeverity();
+            LogMessage commitMsg = new LogMessage(low, MethodBase.GetCurrentMethod().Name, message.ToString());
+            await Log(commitMsg);
+
+            try
+            {
+                string[] lines = File.ReadAllLines("command text\\commit.txt");
+                Random rnd = new Random();
+                await message.Channel.SendMessageAsync(lines[rnd.Next(lines.Length)]);
+            }
+            finally { string[] lines = new string[0]; }
+            
+
         }
 
         private Task Log(LogMessage msg)

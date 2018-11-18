@@ -11,6 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="command text\commit.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="token.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
