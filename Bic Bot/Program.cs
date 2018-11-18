@@ -71,6 +71,11 @@ namespace MyBot
 
         }
 
+        private string StripCommand(string message)
+        {
+            return message.Substring(message.IndexOf(' ') + 1);
+        }
+
         private async Task CallMe(SocketMessage message)
         {
             if (callList.ContainsKey(message.Author.Username))
@@ -81,6 +86,7 @@ namespace MyBot
             await message.Channel.SendMessageAsync(String.Format(@"{0}, I will call you {1}", 
                 message.Author.Username, message.Content.Substring(message.Content.IndexOf(' ') + 1)));
             }
+
 
         private async Task GetName(SocketMessage message)
         {
