@@ -82,9 +82,9 @@ namespace MyBot
             {
                 callList.Remove(message.Author.Username);
             }
-                callList.Add(message.Author.Username, message.Content.Substring(message.Content.IndexOf(' ') + 1));
+                callList.Add(message.Author.Username, StripCommand(message.Content));
             await message.Channel.SendMessageAsync(String.Format(@"{0}, I will call you {1}", 
-                message.Author.Username, message.Content.Substring(message.Content.IndexOf(' ') + 1)));
+                message.Author.Username, StripCommand(message.Content)));
             }
 
 
@@ -148,7 +148,7 @@ namespace MyBot
             await Log(thiccMsg);
 
             Dictionary<string, string> thiccDict = GetDictionaryFromFile("Extra thicc.txt");
-            char[] text = message.Content.ToCharArray();
+            char[] text = StripCommand(message.Content).ToCharArray();
             char[] output = new char[text.Length];
             for(int i = 0; i < text.Length; i++)
             {
